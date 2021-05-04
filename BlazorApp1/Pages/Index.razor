@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using BlazorApp1.Data
+@using Refit
 @inject BlazorApp1.Data.TokenProvider TokenProvider
 <h1>Hello, world!</h1>
 
@@ -8,9 +10,24 @@ Welcome to your new app.
     <Authorized>
         Hello, @context.User.Identity.Name!
         Your token is: @TokenProvider.AccessToken
-        
+        <button @onclick="@CheckAthlete">Athlete</button>
     </Authorized>
     <NotAuthorized>
-        You need to login
+        
     </NotAuthorized>
 </AuthorizeView>
+
+@code{
+    private void CheckAthlete()
+    {
+        RefitSettings settings = new RefitSettings()
+		{
+			AuthorizationHeaderValueGetter = () => Task.FromResult(TokenProvider.AccessToken)
+		};
+
+		var stravaApi = RestService.For<IStravaApi>("https://www.strava.com/api/v3", settings);
+
+		var athlete = stravaApi.GetLoggedInAthlete().Result;
+
+    }
+}

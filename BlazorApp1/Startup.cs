@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace BlazorApp1
 {
@@ -44,6 +45,10 @@ namespace BlazorApp1
                     options.ClientId = Configuration.GetValue<string>("STRAVA_CLIENT_ID");
                     options.ClientSecret = Configuration.GetValue<string>("STRAVA_CLIENT_SECRET");
                     options.SaveTokens = true;
+                    options.Scope.Add("read_all");
+                    options.Scope.Add("profile:read_all");
+                    options.Scope.Add("activity:read_all");
+                    options.Scope.Add("activity:write");
                 });
 
             services.AddRazorPages();

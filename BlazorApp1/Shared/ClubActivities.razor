@@ -1,0 +1,21 @@
+﻿@using BlazorApp1.Data
+@using Refit
+@inject TokenProvider TokenProvider
+
+<h3>ClubActivities</h3>
+
+@code {
+	protected async override Task OnParametersSetAsync()
+	{
+		RefitSettings settings = new RefitSettings()
+		{
+			AuthorizationHeaderValueGetter = () => Task.FromResult(TokenProvider.AccessToken)
+		};
+
+		var stravaApi = RestService.For<IStravaApi>("https://www.strava.com/api/v3", settings);
+
+		var athlete = await stravaApi.GetClubActivities("brbb");
+
+		await base.OnParametersSetAsync();
+	}
+}
