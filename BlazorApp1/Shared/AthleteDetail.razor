@@ -4,6 +4,7 @@
 
 <h3>AthleteDetail</h3>
 
+<button @onclick="@GetData">Get Data</button>
 @if (LoggedInAthlete != null)
 {
 	<div>Name: @LoggedInAthlete.firstname @LoggedInAthlete.lastname</div>
@@ -17,9 +18,7 @@
 
 	public DetailedAthlete LoggedInAthlete { get; set; }
 
-
-
-	async protected override Task OnAfterRenderAsync(bool firstRender)
+	private void GetData()
 	{
 		RefitSettings settings = new RefitSettings()
 		{
@@ -28,6 +27,12 @@
 
 		var stravaApi = RestService.For<IStravaApi>("https://www.strava.com/api/v3", settings);
 
-		LoggedInAthlete = await stravaApi.GetLoggedInAthlete();
+		LoggedInAthlete = stravaApi.GetLoggedInAthlete().Result;
+		
+		this.StateHasChanged();
+
 	}
+
+
+	
 }
