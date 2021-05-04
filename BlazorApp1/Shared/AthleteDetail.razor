@@ -1,0 +1,33 @@
+﻿@using BlazorApp1.Data
+@using Refit
+@inject BlazorApp1.Data.TokenProvider TokenProvider
+
+<h3>AthleteDetail</h3>
+
+@if (LoggedInAthlete != null)
+{
+	<div>Name: @LoggedInAthlete.firstname @LoggedInAthlete.lastname</div>
+	<br />
+	<div>Location: @LoggedInAthlete.city, @LoggedInAthlete.state</div>
+	<br />
+	<img src="@LoggedInAthlete.profile" />
+}
+
+@code {
+
+	public DetailedAthlete LoggedInAthlete { get; set; }
+
+
+
+	async protected override Task OnAfterRenderAsync(bool firstRender)
+	{
+		RefitSettings settings = new RefitSettings()
+		{
+			AuthorizationHeaderValueGetter = () => Task.FromResult(TokenProvider.AccessToken)
+		};
+
+		var stravaApi = RestService.For<IStravaApi>("https://www.strava.com/api/v3", settings);
+
+		LoggedInAthlete = await stravaApi.GetLoggedInAthlete();
+	}
+}

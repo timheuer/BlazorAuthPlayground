@@ -48,7 +48,7 @@ namespace BlazorApp1
                     options.Scope.Add("read_all");
                     options.Scope.Add("profile:read_all");
                     options.Scope.Add("activity:read_all");
-                    options.Scope.Add("activity:write");
+                    //options.Scope.Add("activity:write");
                 });
 
             services.AddRazorPages();
