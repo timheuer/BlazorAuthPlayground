@@ -12,6 +12,9 @@ env:
   WORKING_DIRECTORY: BlazorApp1
 jobs:
   build-and-deploy:
+    environment:
+      name: playground
+      url: ${{ steps.web_deploy.outputs.webapp-url }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -29,6 +32,7 @@ jobs:
       run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
+      id: web_deploy
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
