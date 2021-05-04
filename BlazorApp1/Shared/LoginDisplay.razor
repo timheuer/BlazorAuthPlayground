@@ -9,7 +9,7 @@
     </NotAuthorized>
 </AuthorizeView>
 @code{
-    private void LoginToStrava() => NavigationManager.NavigateTo($"login?redirectUri=https://authplayground.azurewebsites.net", forceLoad: true);
+    private void LoginToStrava() => NavigationManager.NavigateTo($"login?redirectUri=/", forceLoad: true);
 
-    private void LogoutStrava() => NavigationManager.NavigateTo($"logout?redirectUri=https://authplayground.azurewebsites.net", forceLoad: true);
+    private void LogoutStrava() => NavigationManager.NavigateTo($"logout?redirectUri=/", forceLoad: true);
 }
