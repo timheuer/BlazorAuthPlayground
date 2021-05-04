@@ -1,0 +1,16 @@
+﻿@page "/"
+@inject BlazorApp1.Data.TokenProvider TokenProvider
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity.Name!
+        Your token is: @TokenProvider.AccessToken
+        
+    </Authorized>
+    <NotAuthorized>
+        You need to login
+    </NotAuthorized>
+</AuthorizeView>

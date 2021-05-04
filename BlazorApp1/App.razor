@@ -1,0 +1,25 @@
+@using BlazorApp1.Data
+@inject TokenProvider Service
+@code
+{
+    [Parameter]
+    public InitialApplicationState InitialState { get; set;  }
+
+    protected override void OnInitialized()
+    {
+        Service.AccessToken = InitialState.AccessToken;
+        base.OnInitialized();
+    }
+}
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

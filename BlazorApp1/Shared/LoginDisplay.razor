@@ -1,0 +1,15 @@
+﻿@inject NavigationManager NavigationManager
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity.Name!
+        <a href="" @onclick="@LogoutStrava" @onclick:preventDefault>Log out</a>
+    </Authorized>
+    <NotAuthorized>
+        <button @onclick="@LoginToStrava">Login</button>
+    </NotAuthorized>
+</AuthorizeView>
+@code{
+    private void LoginToStrava() => NavigationManager.NavigateTo($"login?redirectUri=/", forceLoad: true);
+
+    private void LogoutStrava() => NavigationManager.NavigateTo($"logout?redirectUri=/", forceLoad:true);
+}
