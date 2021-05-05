@@ -1,10 +1,10 @@
 ﻿@using BlazorApp1.Data
 @using Refit
+@using System.Security.Claims
 @inject BlazorApp1.Data.TokenProvider TokenProvider
 
 <h3>AthleteDetail</h3>
 
-<button @onclick="@GetData">Get Data</button>
 @if (LoggedInAthlete != null)
 {
 	<div>Name: @LoggedInAthlete.firstname @LoggedInAthlete.lastname</div>
@@ -13,12 +13,19 @@
 	<br />
 	<img src="@LoggedInAthlete.profile" />
 }
+else
+{
+	<div>Loading...</div>
+}
 
 @code {
 
 	public DetailedAthlete LoggedInAthlete { get; set; }
 
-	private void GetData()
+	[Parameter]
+	public ClaimsPrincipal User { get; set; }
+
+	async protected override Task OnParametersSetAsync()
 	{
 		RefitSettings settings = new RefitSettings()
 		{
@@ -27,12 +34,6 @@
 
 		var stravaApi = RestService.For<IStravaApi>("https://www.strava.com/api/v3", settings);
 
-		LoggedInAthlete = stravaApi.GetLoggedInAthlete().Result;
-		
-		this.StateHasChanged();
-
+		LoggedInAthlete = await stravaApi.GetLoggedInAthlete();
 	}
-
-
-	
 }

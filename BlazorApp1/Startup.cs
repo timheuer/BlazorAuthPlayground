@@ -26,7 +26,10 @@ namespace BlazorApp1
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-                .AddCookie()
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/login";  
+                })
                 .AddStrava(options =>
                 {
                     options.ClientId = Configuration.GetValue<string>("STRAVA_CLIENT_ID");

@@ -10,7 +10,7 @@ Welcome to your new app.
     <Authorized>
         Hello, @context.User.Identity.Name!
         Your token is: @TokenProvider.AccessToken
-        <AthleteDetail/>
+        <AthleteDetail User="@context.User" />
     </Authorized>
     <NotAuthorized>
         You need to log in.
